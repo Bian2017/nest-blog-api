@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import { TypegooseModule } from 'nestjs-typegoose'
+import { UsersModule } from './users/users.module';
 
 @Module({ //表示它是一个模块
   imports: [
@@ -11,7 +12,8 @@ import { TypegooseModule } from 'nestjs-typegoose'
       useFindAndModify: false,
       useCreateIndex: true
     }),
-    PostsModule
+    PostsModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService], // 跟依赖注入相关
