@@ -6,7 +6,7 @@ import { TypegooseModule } from 'nestjs-typegoose'
 
 @Module({ //表示它是一个模块
   imports: [
-    TypegooseModule.forRoot('mongodb://Li:123456@dev.toimc.com:42017/nest-blog-api', {
+    TypegooseModule.forRoot('mongodb://Li:123456@dev.toimc.com:42017/nest-blog-api', { // 连接数据库
       useNewUrlParser: true,
       useFindAndModify: false,
       useCreateIndex: true

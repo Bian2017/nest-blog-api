@@ -2,12 +2,12 @@ import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator'
 import { InjectModel } from 'nestjs-typegoose';
-import {Post as PostSchema} from './post.model'
+import { Post as PostSchema} from './post.model' // 避免与请求方法Post冲突
 import { ModelType } from '@typegoose/typegoose/lib/types';
 
 class CreatePostDto { // Dto 是Data Transfer Object(数据传输对象)的简写
   @ApiProperty({ description: '帖子标题', example: '帖子标题'})
-  @IsNotEmpty({message: '请填写标题'}) // 检查值是否不为空。添加message，表示出错的时候提示什么错误
+  @IsNotEmpty({ message: '请填写标题'}) // 添加校验，即属性title值不能为空。message表示出错的时候提示什么错误
   title: string
 
   @ApiProperty({ description: '帖子内容', example: '帖子内容' })
@@ -17,6 +17,11 @@ class CreatePostDto { // Dto 是Data Transfer Object(数据传输对象)的简�
 @Controller('posts')
 @ApiTags('帖子')
 export class PostsController {
+  /**
+   * 1. 将模型PostSchema注入到PostsController类的postModel属性上，然后就可以通过this.postModel访问这个模型。
+   * 2. 虽然有了postModel这个属性，但系统并不知道这个postModel是什么类型，无法知道这个postModel上有哪些属性方法，因而不会有代码提示。
+   * 所以还需指定其类型。由于ModelType是个泛型类别，还必须指定具体类型，故此处指定为模型类别中的PostSchema
+   */
   constructor(@InjectModel(PostSchema) private readonly postModel: ModelType<PostSchema>) {} // private readonly 表示这属性是私有的
 
   @Get()
