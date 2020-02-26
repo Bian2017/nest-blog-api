@@ -2,16 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-import * as mongoose from 'mongoose'
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  mongoose.connect('mongodb://Li:123456@dev.toimc.com:42017/nest-blog-api', {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-  })
-
   const app = await NestFactory.create(AppModule);
+
+  // 将把它设置为一个全局作用域的管道，用于整个应用程序中的每个路由处理器。管道有点类似中间件的概念
+  app.useGlobalPipes(new ValidationPipe()) // 添加验证管道
 
   const options = new DocumentBuilder()
     .setTitle('NestJs博客API')
